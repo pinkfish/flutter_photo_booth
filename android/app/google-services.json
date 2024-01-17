@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "287515092202",
+    "project_id": "froggyphoto-68db0",
+    "storage_bucket": "froggyphoto-68db0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:287515092202:android:5859c507452c085927e393",
+        "android_client_info": {
+          "package_name": "com.whelksoft.froggybooth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "287515092202-doreo05kur0li53b5j2skejbu5mbs2kk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.whelksoft.froggybooth",
+            "certificate_hash": "20cd3240d621274145e56a438525f3d731ee5795"
+          }
+        },
+        {
+          "client_id": "287515092202-l71ehdsktmackn6gj0bqp4a6b1b8lsl7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkkS8pR34k18yHDbOAZhpXfJYruXrbrb4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "287515092202-l71ehdsktmackn6gj0bqp4a6b1b8lsl7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "287515092202-jsg237n46ol9si3g0bgji4td04sbsh0b.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.whelksoft.froggybooth"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
