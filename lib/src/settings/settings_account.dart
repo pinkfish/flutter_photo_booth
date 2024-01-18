@@ -13,21 +13,21 @@ class SettingsAccount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<PhotosLibraryApiModel>(builder:
-        (BuildContext context, Widget? child, PhotosLibraryApiModel apiModel) {
-      if (apiModel.isLoggedIn()) {
-        final placeholderCharSources = <String>[
-          apiModel.user!.displayName ?? 'Unknown',
-          apiModel.user!.email,
-          '-',
-        ];
-        final placeholderChar = placeholderCharSources
-            .firstWhere((String str) => str.trimLeft().isNotEmpty)
-            .trimLeft()[0]
-            .toUpperCase();
-        return Row(
-          children: <Widget>[
-            apiModel.user!.photoUrl != null
+    return ScopedModelDescendant<PhotosLibraryApiModel>(
+      builder: (BuildContext context, Widget? child,
+          PhotosLibraryApiModel apiModel) {
+        if (apiModel.isLoggedIn()) {
+          final placeholderCharSources = <String>[
+            apiModel.user!.displayName ?? 'Unknown',
+            apiModel.user!.email,
+            '-',
+          ];
+          final placeholderChar = placeholderCharSources
+              .firstWhere((String str) => str.trimLeft().isNotEmpty)
+              .trimLeft()[0]
+              .toUpperCase();
+          return ListTile(
+            leading: apiModel.user!.photoUrl != null
                 ? CircleAvatar(
                     radius: 14,
                     child: ClipRRect(
@@ -40,27 +40,42 @@ class SettingsAccount extends StatelessWidget {
                 : CircleAvatar(
                     child: Text(placeholderChar),
                   ),
-            Text(
-              'Field Trippa',
-              style: TextStyle(color: Colors.green[800]),
+            title: Text(
+              apiModel.user?.displayName ?? '[no name]',
+              style: Theme.of(context).textTheme.titleLarge!,
             ),
-          ],
-        );
-      }
-      return Row(children: [
-        OutlinedButton(
-            onPressed: () async => {
-                  await Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => LoginPage(
-                        controller: controller,
-                      ),
+            trailing: IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () async {
+                await apiModel.signOut();
+                if (!context.mounted) return;
+                await Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => LoginPage(
+                      controller: controller,
                     ),
-                  )
-                },
-            child: const Text('LOGIN')),
-      ]);
-    });
+                  ),
+                );
+              },
+            ),
+          );
+        }
+        return Row(children: [
+          OutlinedButton(
+              onPressed: () async => {
+                    await Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => LoginPage(
+                          controller: controller,
+                        ),
+                      ),
+                    )
+                  },
+              child: const Text('LOGIN')),
+        ]);
+      },
+    );
   }
 }

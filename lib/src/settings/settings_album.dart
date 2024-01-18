@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import '../components/app_bar.dart';
 import '../pages/photo_booth_page.dart';
 import '../components/album_card.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -15,7 +16,9 @@ class SettingsAlbum extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      appBar: FroggyAppBar(
+        controller: controller,
+      ),
       body: _buildBoothList(),
     );
   }

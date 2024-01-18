@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../settings/settings_controller.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -44,7 +45,7 @@ class LoginPage extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(30),
               child: const Text(
-                'Photbooth albums from Froggy Booth will be stored as shared albums in '
+                'Photo booth albums from Froggy Booth will be stored as shared albums in '
                 'Google Photos',
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -61,7 +62,9 @@ class LoginPage extends StatelessWidget {
                       ? _navigateToBoothList(context)
                       : _showSignInError(context);
                 } on Exception catch (error) {
-                  print(error);
+                  if (kDebugMode) {
+                    print(error);
+                  }
                   _showSignInError(context);
                 }
               },

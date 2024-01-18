@@ -1,7 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:froggybooth/src/settings/settings_account.dart';
+import 'settings_account.dart';
+import 'settings_album.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 import '../components/album_card.dart';
+import '../model/photos_library_api_model.dart';
 import 'settings_controller.dart';
 
 /// Displays the various settings that can be customized by the user.
@@ -29,25 +33,28 @@ class SettingsView extends StatelessWidget {
         // SettingsController is updated, which rebuilds the MaterialApp.
         child: Column(
           children: <Widget>[
-            DropdownButton<ThemeMode>(
-              // Read the selected themeMode from the controller
-              value: controller.themeMode,
-              // Call the updateThemeMode method any time the user selects a theme.
-              onChanged: (v) => controller.updateThemeMode(v!),
-              items: const [
-                DropdownMenuItem(
-                  value: ThemeMode.system,
-                  child: Text('System Theme'),
-                ),
-                DropdownMenuItem(
-                  value: ThemeMode.light,
-                  child: Text('Light Theme'),
-                ),
-                DropdownMenuItem(
-                  value: ThemeMode.dark,
-                  child: Text('Dark Theme'),
-                )
-              ],
+            ListTile(
+              leading: const Icon(Icons.settings_display),
+              title: DropdownButton<ThemeMode>(
+                // Read the selected themeMode from the controller
+                value: controller.themeMode,
+                // Call the updateThemeMode method any time the user selects a theme.
+                onChanged: (v) => controller.updateThemeMode(v!),
+                items: const [
+                  DropdownMenuItem(
+                    value: ThemeMode.system,
+                    child: Text('System Theme'),
+                  ),
+                  DropdownMenuItem(
+                    value: ThemeMode.light,
+                    child: Text('Light Theme'),
+                  ),
+                  DropdownMenuItem(
+                    value: ThemeMode.dark,
+                    child: Text('Dark Theme'),
+                  )
+                ],
+              ),
             ),
             SettingsAccount(
               controller: controller,
@@ -57,9 +64,57 @@ class SettingsView extends StatelessWidget {
                     onPressed: () => null,
                     child: const Text('SELECT ALBUM'),
                   )
-                : AlbumCard(
-                    albumId: controller.albumId!,
-                  ),
+                : ScopedModelDescendant<PhotosLibraryApiModel>(
+                    builder: (BuildContext context, Widget? child,
+                            PhotosLibraryApiModel apiModel) =>
+                        FutureBuilder(
+                      future: apiModel.getAlbum(controller.albumId!),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          var album = snapshot.data!;
+                          return ListTile(
+                            title: Text(
+                              album.title ?? '[no title]',
+                              style: Theme.of(context).textTheme.titleLarge!,
+                            ),
+                            leading: CachedNetworkImage(
+                              imageUrl:
+                                  '${snapshot.data!.coverPhotoBaseUrl}=w20-h20-c',
+                              progressIndicatorBuilder:
+                                  (context, url, downloadProgress) =>
+                                      CircularProgressIndicator(
+                                          value: downloadProgress.progress),
+                              errorWidget: (BuildContext context, String url,
+                                  Object error) {
+                                print(error);
+                                return const Icon(Icons.error);
+                              },
+                              height: 20,
+                              width: 20,
+                            ),
+                            trailing: IconButton(
+                              icon: const Icon(Icons.album),
+                              onPressed: () async {
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        SettingsAlbum(
+                                      controller: controller,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        }
+                        return const ListTile(
+                          leading: Icon(Icons.picture_in_picture),
+                          title: Text('[loading]'),
+                        );
+                      },
+                    ),
+                  )
           ],
         ),
       ),
