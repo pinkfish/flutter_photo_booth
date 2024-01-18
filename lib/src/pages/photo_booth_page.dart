@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import '../components/animated_stuff_icon.dart';
 import '../components/app_bar.dart';
 import '../model/camera_model.dart';
 import 'take_photos_page.dart';
@@ -38,8 +41,6 @@ class PhotoBoothPage extends StatefulWidget {
 }
 
 class _PhotoBoothPageState extends State<PhotoBoothPage> {
-  _PhotoBoothPageState();
-
   final CameraModel cameraModel = CameraModel();
 
   @override
@@ -62,15 +63,33 @@ class _PhotoBoothPageState extends State<PhotoBoothPage> {
                       return Column(
                         children: <Widget>[
                           const SizedBox(height: 30),
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Text(
+                              'Press the photo button to take a series of four photos '
+                              'use the QR code to join the album',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(fontSize: 20),
+                            ),
+                          ),
                           FilledButton(
                             onPressed: _doPhoto,
+                            style: const ButtonStyle(
+                              backgroundColor:
+                                  MaterialStatePropertyAll<Color>(Colors.green),
+                            ),
                             child: SizedBox(
                               width: layout.maxHeight / 4,
                               height: layout.maxHeight / 4,
                               child: Center(
-                                child: Icon(
-                                  Icons.camera_alt,
-                                  size: layout.maxHeight / 16 * 3,
+                                child: AnimatedStuffIcon(
+                                  icons: const [
+                                    Icons.camera_alt,
+                                    Icons.picture_in_picture
+                                  ],
+                                  size: layout.maxHeight / 6,
                                 ),
                               ),
                             ),
