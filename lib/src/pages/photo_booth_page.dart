@@ -15,10 +15,10 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:froggybooth/src/components/app_bar.dart';
-import 'package:froggybooth/src/model/camera_model.dart';
-import 'package:froggybooth/src/pages/take_photos_page.dart';
-import 'package:froggybooth/src/settings/settings_controller.dart';
+import '../components/app_bar.dart';
+import '../model/camera_model.dart';
+import 'take_photos_page.dart';
+import '../settings/settings_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:scoped_model/scoped_model.dart';
 import '../components/last_photos.dart';
@@ -81,7 +81,7 @@ class _PhotoBoothPageState extends State<PhotoBoothPage> {
                               size: layout.maxHeight / 3),
                           LastPhotos(
                             albumId: widget.albumId,
-                            size: layout.maxHeight/4,
+                            size: layout.maxHeight / 4,
                           ),
                         ],
                       );

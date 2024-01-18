@@ -15,12 +15,10 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:froggybooth/src/settings/settings_controller.dart';
+import '../settings/settings_controller.dart';
 import 'package:scoped_model/scoped_model.dart';
 import '../components/app_bar.dart';
 import '../model/photos_library_api_model.dart';
-import '../pages/froggy_booth_list_page.dart';
 import 'home_page.dart';
 
 class LoginPage extends StatelessWidget {

@@ -16,11 +16,11 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:froggybooth/src/pages/photo_booth_page.dart';
+import '../pages/photo_booth_page.dart';
+import '../settings/settings_view.dart';
 import 'package:scoped_model/scoped_model.dart';
 import '../model/photos_library_api_model.dart';
 import '../pages/login_page.dart';
-import '../pages/froggy_booth_list_page.dart';
 import '../settings/settings_controller.dart';
 
 class HomePage extends StatelessWidget {
@@ -36,7 +36,7 @@ class HomePage extends StatelessWidget {
       builder: (context, child, apiModel) {
         if (apiModel.isLoggedIn()) {
           if (controller.albumId == null) {
-            return FroggyBoothListPage(
+            return SettingsView(
               controller: controller,
             );
           }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:froggybooth/src/settings/settings_account.dart';
 
+import '../components/album_card.dart';
 import 'settings_controller.dart';
 
 /// Displays the various settings that can be customized by the user.
@@ -51,6 +52,14 @@ class SettingsView extends StatelessWidget {
             SettingsAccount(
               controller: controller,
             ),
+            controller.albumId == null
+                ? OutlinedButton(
+                    onPressed: () => null,
+                    child: const Text('SELECT ALBUM'),
+                  )
+                : AlbumCard(
+                    albumId: controller.albumId!,
+                  ),
           ],
         ),
       ),
