@@ -61,7 +61,16 @@ class SettingsView extends StatelessWidget {
             ),
             controller.albumId == null
                 ? OutlinedButton(
-                    onPressed: () => null,
+                    onPressed: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) => SettingsAlbum(
+                            controller: controller,
+                          ),
+                        ),
+                      );
+                    },
                     child: const Text('SELECT ALBUM'),
                   )
                 : ScopedModelDescendant<PhotosLibraryApiModel>(

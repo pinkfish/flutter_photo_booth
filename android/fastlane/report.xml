@@ -5,67 +5,67 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="00: default_platform" time="0.0009401">
+      <testcase classname="fastlane.lanes" name="00: default_platform" time="0.0011217">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="01: Switch to android release_notes lane" time="0.0011369">
+      <testcase classname="fastlane.lanes" name="01: Switch to android release_notes lane" time="0.000628">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="02: Switch to android get_build_name_and_build_number lane" time="0.000855">
+      <testcase classname="fastlane.lanes" name="02: Switch to android get_build_name_and_build_number lane" time="0.0005911">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="03: number_of_commits" time="0.4231753">
+      <testcase classname="fastlane.lanes" name="03: number_of_commits" time="0.4111471">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="04: last_git_tag" time="0.0972289">
+      <testcase classname="fastlane.lanes" name="04: last_git_tag" time="0.0923931">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="05: last_git_tag" time="0.0954051">
+      <testcase classname="fastlane.lanes" name="05: last_git_tag" time="0.102284">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="06: last_git_tag" time="0.0947617">
+      <testcase classname="fastlane.lanes" name="06: last_git_tag" time="0.095733">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="07: changelog_from_git_commits" time="0.0524918">
+      <testcase classname="fastlane.lanes" name="07: changelog_from_git_commits" time="0.0550317">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="08: git_add" time="0.0536201">
+      <testcase classname="fastlane.lanes" name="08: git_add" time="0.0531205">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="09: clean bundleRelease" time="31.7041753">
+      <testcase classname="fastlane.lanes" name="09: clean bundleRelease" time="32.9522089">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="10: upload_to_play_store" time="31.9378796">
+      <testcase classname="fastlane.lanes" name="10: upload_to_play_store" time="30.670866">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="11: Switch to android tag_branch lane" time="0.0009102">
+      <testcase classname="fastlane.lanes" name="11: Switch to android tag_branch lane" time="0.0008272">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="12: add_git_tag" time="0.0670095">
+      <testcase classname="fastlane.lanes" name="12: add_git_tag" time="0.0560469">
         
       </testcase>
     
