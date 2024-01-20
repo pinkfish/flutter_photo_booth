@@ -36,14 +36,13 @@ import '../photos_library_api/share_album_response.dart';
 
 class PhotosLibraryApiModel extends Model {
   PhotosLibraryApiModel() {
+    print("user stuff xxxxx");
     _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
       _currentUser = account;
-      client = _currentUser != null
-          ?
+      print("user change");
+      client =
           // Initialize the client with the new user credentials
-          PhotosLibraryApiClient(_currentUser!.authHeaders)
-          : PhotosLibraryApiClient(Future.value({}));
-
+          PhotosLibraryApiClient(_currentUser);
       // Reinitialize the albums
       updateAlbums();
 
@@ -81,8 +80,18 @@ class PhotosLibraryApiModel extends Model {
     return album;
   }
 
-  Future<Album> getAlbum(String id) async =>
-      client.getAlbum(GetAlbumRequest.defaultOptions(id));
+  Future<Album> getAlbum(String id) async {
+    if (hasAlbums) {
+      for (var a in albums) {
+        if (a.id == id) {
+          return a;
+        }
+      }
+    }
+    var album = await client.getAlbum(GetAlbumRequest.defaultOptions(id));
+    albums.add(album);
+    return album;
+  }
 
   Future<JoinSharedAlbumResponse> joinSharedAlbum(String shareToken) async {
     final response =
@@ -92,10 +101,8 @@ class PhotosLibraryApiModel extends Model {
   }
 
   Future<ShareAlbumResponse> shareAlbum(String id) async {
-    print('id $id');
     final response =
         await client.shareAlbum(ShareAlbumRequest.defaultOptions(id));
-    print("response");
     updateAlbums();
     return response;
   }
@@ -117,13 +124,11 @@ class PhotosLibraryApiModel extends Model {
     // media item.
     final response = await client.batchCreateMediaItems(request);
 
-    // Print and return the response.
-    print(response.newMediaItemResults[0].toJson());
     return response;
   }
 
   UnmodifiableListView<Album> get albums =>
-      UnmodifiableListView<Album>(_albums ?? <Album>[]);
+      UnmodifiableListView<Album>(_albums);
 
   void updateAlbums() async {
     // Reset the flag before loading new albums
@@ -146,7 +151,7 @@ class PhotosLibraryApiModel extends Model {
     // Load albums from owned and shared albums
     final list = await Future.wait([_loadSharedAlbums(), _loadAlbums()]);
 
-    _albums.addAll(list.expand((a) => a ?? []));
+    _albums.addAll(list.expand((a) => a ));
 
     notifyListeners();
     hasAlbums = true;

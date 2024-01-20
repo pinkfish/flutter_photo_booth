@@ -8,10 +8,9 @@ import '../model/photos_library_api_model.dart';
 import '../photos_library_api/album.dart';
 
 class AlbumQrCode extends StatelessWidget {
-  const AlbumQrCode({super.key, required this.albumId, required this.size});
+  const AlbumQrCode({super.key, required this.albumId});
 
   final String albumId;
-  final double size;
 
   Future<void> _shareAlbum(
       BuildContext context, Album album, PhotosLibraryApiModel apiModel) async {
@@ -32,7 +31,7 @@ class AlbumQrCode extends StatelessWidget {
   Widget _qrCode(
       BuildContext context, Album album, PhotosLibraryApiModel apiModel) {
     if (album.shareInfo == null) {
-       if (kDebugMode) {
+      if (kDebugMode) {
         print('Not shared, sharing album first.');
       }
 
@@ -42,7 +41,6 @@ class AlbumQrCode extends StatelessWidget {
             if (snapshot.hasData) {
               return QrImageView(
                 data: album.shareInfo!.shareableUrl,
-                size: size,
                 version: QrVersions.auto,
               );
             }
@@ -52,7 +50,6 @@ class AlbumQrCode extends StatelessWidget {
       // Album is already shared, display dialog with URL
       return QrImageView(
         data: album.shareInfo!.shareableUrl,
-        size: size,
         version: QrVersions.auto,
       );
     }

@@ -18,6 +18,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart';
 import '../photos_library_api/album.dart';
 import 'package:http/http.dart' as http;
@@ -36,15 +37,26 @@ import '../photos_library_api/share_album_response.dart';
 import 'package:path/path.dart' as path;
 
 class PhotosLibraryApiClient {
-  PhotosLibraryApiClient(this._authHeaders);
+  PhotosLibraryApiClient(this._account);
 
-  final Future<Map<String, String>> _authHeaders;
+  final GoogleSignInAccount? _account;
+  Map<String, String>? _authHeaders;
+
+  Future<Map<String, String>> getAuthHeaders() async {
+    if (_account == null) {
+      print("null account");
+      return {};
+    }
+    _authHeaders = await _account.authHeaders;
+    print(_authHeaders);
+    return _authHeaders ?? {};
+  }
 
   Future<Album> createAlbum(CreateAlbumRequest request) async {
     final response = await http.post(
       Uri.parse('https://photoslibrary.googleapis.com/v1/albums'),
       body: jsonEncode(request),
-      headers: await _authHeaders,
+      headers: await getAuthHeaders(),
     );
 
     printError(response);
@@ -56,7 +68,7 @@ class PhotosLibraryApiClient {
       JoinSharedAlbumRequest request) async {
     final response = await http.post(
         Uri.parse('https://photoslibrary.googleapis.com/v1/sharedAlbums:join'),
-        headers: await _authHeaders,
+        headers: await getAuthHeaders(),
         body: jsonEncode(request));
 
     printError(response);
@@ -69,7 +81,7 @@ class PhotosLibraryApiClient {
         .post(
             Uri.parse(
                 'https://photoslibrary.googleapis.com/v1/albums/${request.albumId}:share'),
-            headers: await _authHeaders)
+            headers: await getAuthHeaders())
         .timeout(const Duration(seconds: 20));
 
     printError(response);
@@ -78,12 +90,18 @@ class PhotosLibraryApiClient {
   }
 
   Future<Album> getAlbum(GetAlbumRequest request) async {
-    print('get album ${request.albumId}');
     try {
       final response = await http.get(
           Uri.parse(
               'https://photoslibrary.googleapis.com/v1/albums/${request.albumId}'),
-          headers: await _authHeaders);
+          headers: await getAuthHeaders());
+      if (response.statusCode == 401) {
+        if (_account != null) {
+          await _account.clearAuthCache();
+          var auth = await _account.authentication;
+          return getAlbum(request);
+        }
+      }
       printError(response);
 
       return Album.fromJson(jsonDecode(response.body));
@@ -98,7 +116,7 @@ class PhotosLibraryApiClient {
     final response = await http.get(
         Uri.parse('https://photoslibrary.googleapis.com/v1/albums?'
             'pageSize=50&excludeNonAppCreatedData=true'),
-        headers: await _authHeaders);
+        headers: await getAuthHeaders());
 
     printError(response);
 
@@ -114,7 +132,7 @@ class PhotosLibraryApiClient {
     final response = await http.get(
         Uri.parse('https://photoslibrary.googleapis.com/v1/sharedAlbums?'
             'pageSize=50&excludeNonAppCreatedData=true'),
-        headers: await _authHeaders);
+        headers: await getAuthHeaders());
 
     printError(response);
 
@@ -131,7 +149,7 @@ class PhotosLibraryApiClient {
 
     // Set up the headers required for this request.
     final headers = <String, String>{};
-    headers.addAll(await _authHeaders);
+    headers.addAll(await getAuthHeaders());
     headers['Content-type'] = 'application/octet-stream';
     headers['X-Goog-Upload-Protocol'] = 'raw';
     headers['X-Goog-Upload-File-Name'] = filename;
@@ -140,7 +158,7 @@ class PhotosLibraryApiClient {
     final response = await http.post(
       Uri.parse('https://photoslibrary.googleapis.com/v1/uploads'),
       body: image.readAsBytesSync(),
-      headers: await _authHeaders,
+      headers: await getAuthHeaders(),
     );
 
     printError(response);
@@ -153,7 +171,7 @@ class PhotosLibraryApiClient {
     final response = await http.post(
       Uri.parse('https://photoslibrary.googleapis.com/v1/mediaItems:search'),
       body: jsonEncode(request),
-      headers: await _authHeaders,
+      headers: await getAuthHeaders(),
     );
 
     printError(response);
@@ -168,7 +186,7 @@ class PhotosLibraryApiClient {
         Uri.parse(
             'https://photoslibrary.googleapis.com/v1/mediaItems:batchCreate'),
         body: jsonEncode(request),
-        headers: await _authHeaders);
+        headers: await getAuthHeaders());
 
     printError(response);
 

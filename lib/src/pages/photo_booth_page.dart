@@ -95,9 +95,11 @@ class _PhotoBoothPageState extends State<PhotoBoothPage> {
                             ),
                           ),
                           const SizedBox(height: 30),
-                          AlbumQrCode(
+                          Expanded(
+                            child: AlbumQrCode(
                               albumId: widget.albumId,
-                              size: layout.maxHeight / 3),
+                            ),
+                          ),
                           LastPhotos(
                             albumId: widget.albumId,
                             size: layout.maxHeight / 4,

@@ -55,6 +55,7 @@ class _PhotoCountdownState extends State<PhotoCountdown>
               Widget child;
               if (_controller.isAnimating) {
                 child = Center(
+                  key: const Key('previewPhoto'),
                   child: Column(
                     children: [
                       Stack(
@@ -63,7 +64,12 @@ class _PhotoCountdownState extends State<PhotoCountdown>
                               future: widget.cameraModel.cameraInitialized,
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
-                                  return CameraPreview(snapshot.data!);
+                                  return SizedBox(
+                                    height: layout.maxHeight,
+                                    child: Center(
+                                      child: CameraPreview(snapshot.data!),
+                                    ),
+                                  );
                                 }
                                 return const SizedBox(height: 10);
                               }),
@@ -86,20 +92,31 @@ class _PhotoCountdownState extends State<PhotoCountdown>
               } else {
                 // Take the photo and then display it.
                 child = FutureBuilder(
+                    key: const Key('takingPhoto'),
                     future: takePicture(apiModel),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         if (snapshot.data != null) {
-                          return Image.file(File(snapshot.data!.path));
+                          return AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 400),
+                            child: Center(
+                              key: const Key('loaded'),
+                              child: Image.file(File(snapshot.data!.path)),
+                            ),
+                          );
                         }
                         return const Text("Oh dear");
                       }
-                      return const Center(
-                          child: Icon(Icons.camera_alt, size: 300));
+                      return const AnimatedSwitcher(
+                        duration: Duration(milliseconds: 400),
+                        child: Center(
+                            key: Key('photoLoading'),
+                            child: Icon(Icons.camera_alt, size: 300)),
+                      );
                     });
               }
               return AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 200), child: child);
+                  duration: const Duration(milliseconds: 400), child: child);
             },
             animation: StepTween(begin: 0, end: 15).animate(_controller),
           ),

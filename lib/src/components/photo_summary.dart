@@ -16,6 +16,7 @@ class PhotoSummaryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, layout) => Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
             height: layout.maxHeight / 3 * 2,
@@ -28,10 +29,20 @@ class PhotoSummaryPage extends StatelessWidget {
               children: images.map((e) => Image.file(File(e.path))).toList(),
             ),
           ),
-          AlbumQrCode(albumId: albumId, size: layout.maxHeight / 3 - 50),
-          OutlinedButton(
-              onPressed: () => _navigateBack(context),
-              child: const Text('DONE')),
+          Expanded(
+            child: AlbumQrCode(albumId: albumId),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: Colors.blue,
+              padding: const EdgeInsets.fromLTRB(40.0, 10, 40, 10.0),
+            ),
+            onPressed: () => _navigateBack(context),
+            child: const Text(
+              'DONE',
+              style: TextStyle(fontSize: 30.0),
+            ),
+          ),
         ],
       ),
     );
