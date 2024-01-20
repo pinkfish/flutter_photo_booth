@@ -46,6 +46,7 @@ lane :release_notes do |options|
     if options[:OS]=="android"
       puts "build number = '#{@build_number}' #{Dir.pwd}"
 
+      File.write("../version.properties", "flutter.versionCode=#{@build_number}\n")
       File.write("metadata/android/en-US/changelogs/#{@build_number}.txt", "#{changelog[0,500]}")
       begin
         git_add(path:"#{Dir.pwd}/metadata/android/en-US/changelogs/#{@build_number}.txt")

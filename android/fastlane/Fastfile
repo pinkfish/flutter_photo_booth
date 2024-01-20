@@ -36,9 +36,14 @@ platform :android do
   lane :internal do
       release_notes(OS: 'android')
 
-      gradle(task: "clean assembleRelease")
+      gradle(task: "clean bundleRelease")
 
-      upload_to_play_store(track: 'internal')
+      upload_to_play_store(
+          track: 'internal',
+          version_code: @build_number,
+          release_status: 'draft',
+          aab: "../build/app/outputs/bundle/release/app-release.aab"
+      )
       tag_branch(OS: "android")
   end
 
