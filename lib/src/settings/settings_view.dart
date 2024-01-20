@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'settings_account.dart';
 import 'settings_album.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-import '../components/album_card.dart';
 import '../model/photos_library_api_model.dart';
 import 'settings_controller.dart';
 
@@ -33,6 +34,20 @@ class SettingsView extends StatelessWidget {
         // SettingsController is updated, which rebuilds the MaterialApp.
         child: Column(
           children: <Widget>[
+            ListTile(
+              leading: const Icon(Icons.info),
+              title: FutureBuilder(
+                future: PackageInfo.fromPlatform(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    String version = snapshot.data!.version;
+                    String buildNumber = snapshot.data!.buildNumber;
+                    return Text("Version $version $buildNumber");
+                  }
+                  return const Text("[loading]");
+                },
+              ),
+            ),
             ListTile(
               leading: const Icon(Icons.settings_display),
               title: DropdownButton<ThemeMode>(
@@ -95,7 +110,9 @@ class SettingsView extends StatelessWidget {
                                           value: downloadProgress.progress),
                               errorWidget: (BuildContext context, String url,
                                   Object error) {
-                                print(error);
+                                if (kDebugMode) {
+                                  print(error);
+                                }
                                 return const Icon(Icons.error);
                               },
                               height: 20,

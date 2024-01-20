@@ -30,7 +30,9 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: FroggyAppBar(controller: controller,),
+      appBar: FroggyAppBar(
+        controller: controller,
+      ),
       body: _buildBody(),
     );
   }
@@ -41,26 +43,33 @@ class LoginPage extends StatelessWidget {
           PhotosLibraryApiModel apiModel) {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
               padding: const EdgeInsets.all(30),
-              child: const Text(
-                'Photo booth albums from Froggy Booth will be stored as shared albums in '
-                'Google Photos',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontWeight: FontWeight.w500, color: Color(0x99000000)),
+              child: const Center(
+                child: Text(
+                  'Photo booth albums from Froggy Booth will be stored as shared albums in '
+                  'Google Photos',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500, color: Color(0x99000000)),
+                ),
               ),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.all(15),
+                padding: const EdgeInsets.all(15),
               ),
               onPressed: () async {
                 try {
-                  await apiModel.signIn() != null
-                      ? _navigateToBoothList(context)
-                      : _showSignInError(context);
+                  if (await apiModel.signIn() != null) {
+                    if (!context.mounted) return;
+                    _navigateToBoothList(context);
+                  } else {
+                    if (!context.mounted) return;
+                    _showSignInError(context);
+                  }
                 } on Exception catch (error) {
                   if (kDebugMode) {
                     print(error);
