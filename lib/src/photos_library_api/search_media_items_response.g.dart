@@ -9,10 +9,11 @@ part of 'search_media_items_response.dart';
 SearchMediaItemsResponse _$SearchMediaItemsResponseFromJson(
         Map<String, dynamic> json) =>
     SearchMediaItemsResponse(
-      (json['mediaItems'] as List<dynamic>)
-          .map((e) => MediaItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      json['nextPageToken'] as String,
+      mediaItems: (json['mediaItems'] as List<dynamic>?)
+              ?.map((e) => MediaItem.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      nextPageToken: json['nextPageToken'] as String?,
     );
 
 Map<String, dynamic> _$SearchMediaItemsResponseToJson(

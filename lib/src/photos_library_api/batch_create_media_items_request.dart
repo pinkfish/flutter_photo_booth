@@ -28,7 +28,7 @@ class BatchCreateMediaItemsRequest {
     return BatchCreateMediaItemsRequest(
         albumId,
         <NewMediaItem>[NewMediaItem.simple(uploadToken, description)],
-        AlbumPosition.lastInAlbum());
+        AlbumPosition.firstInAlbums());
   }
 
   factory BatchCreateMediaItemsRequest.fromJson(Map<String, dynamic> json) =>
@@ -88,6 +88,8 @@ class AlbumPosition {
 
   static AlbumPosition lastInAlbum() =>
       AlbumPosition.absolute(PositionType.LAST_IN_ALBUM, null, null);
+  static AlbumPosition firstInAlbums() =>
+      AlbumPosition.absolute(PositionType.FIRST_IN_ALBUM, null, null);
 }
 
 enum PositionType {

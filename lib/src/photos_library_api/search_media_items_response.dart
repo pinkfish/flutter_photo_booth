@@ -21,7 +21,7 @@ part 'search_media_items_response.g.dart';
 
 @JsonSerializable()
 class SearchMediaItemsResponse {
-  SearchMediaItemsResponse(this.mediaItems, this.nextPageToken);
+  SearchMediaItemsResponse({this.mediaItems = const [], this.nextPageToken});
 
   factory SearchMediaItemsResponse.fromJson(Map<String, dynamic> json) =>
       _$SearchMediaItemsResponseFromJson(json);
@@ -29,5 +29,5 @@ class SearchMediaItemsResponse {
   Map<String, dynamic> toJson() => _$SearchMediaItemsResponseToJson(this);
 
   List<MediaItem> mediaItems;
-  String nextPageToken;
+  String? nextPageToken;
 }

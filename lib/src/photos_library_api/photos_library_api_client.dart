@@ -181,7 +181,7 @@ class PhotosLibraryApiClient {
 
   Future<BatchCreateMediaItemsResponse> batchCreateMediaItems(
       BatchCreateMediaItemsRequest request) async {
-    print(request.toJson());
+    print(request.albumPosition.toJson());
     final response = await http.post(
         Uri.parse(
             'https://photoslibrary.googleapis.com/v1/mediaItems:batchCreate'),

@@ -25,8 +25,6 @@ class _TakePhotoPageState extends State<TakePhotoPage>
 
   final StreamController<XFile?> _streamController = StreamController<XFile?>();
 
-  late int _photoNumber;
-
   @override
   void dispose() {
     _streamController.close();
@@ -36,7 +34,6 @@ class _TakePhotoPageState extends State<TakePhotoPage>
   @override
   void initState() {
     super.initState();
-    _photoNumber = 1;
   }
 
   @override
@@ -47,19 +44,19 @@ class _TakePhotoPageState extends State<TakePhotoPage>
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var data = snapshot.data;
-            _photoNumber++;
+            if (data != null &&
+                !_images.any((element) => element.path == data.path)) {
+              _images.add(data);
+            }
             if (_images.length >= maxImages) {
               return PhotoSummaryPage(
                 images: _images,
                 albumId: widget.albumId,
               );
-            } else if (data != null &&
-                !_images.any((element) => element.path == data.path)) {
-              _images.add(data);
             }
           }
           return PhotoCountdown(
-              key: Key('Photo$_photoNumber'),
+              key: Key('Photo${_images.length}'),
               cameraModel: widget.cameraModel,
               albumId: widget.albumId,
               streamController: _streamController);

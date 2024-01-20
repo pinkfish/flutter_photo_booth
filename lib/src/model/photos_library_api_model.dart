@@ -17,6 +17,7 @@
 import 'dart:collection';
 import 'dart:io';
 
+import 'package:froggybooth/src/photos_library_api/media_item.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:scoped_model/scoped_model.dart';
 import '../photos_library_api/album.dart';
@@ -107,8 +108,25 @@ class PhotosLibraryApiModel extends Model {
     return response;
   }
 
-  Future<SearchMediaItemsResponse> searchMediaItems(String albumId) async =>
-      client.searchMediaItems(SearchMediaItemsRequest.albumId(albumId));
+  Future<List<MediaItem>> searchMediaItems(String albumId) async {
+    var d = DateTime.now();
+    var res = await client.searchMediaItems(SearchMediaItemsRequest.albumId(
+      albumId,
+      orderBy: "MediaMetadata.creation_time desc",
+      pageSize: 100,
+    ));
+    var items = res.mediaItems;
+    while (res.nextPageToken != null) {
+      res = await client.searchMediaItems(SearchMediaItemsRequest.albumId(
+        albumId,
+        orderBy: "MediaMetadata.creation_time desc",
+        pageToken: res.nextPageToken,
+        pageSize: 100,
+      ));
+      items.addAll(res.mediaItems);
+    }
+    return items;
+  }
 
   Future<String> uploadMediaItem(File image) {
     return client.uploadMediaItem(image);
@@ -151,7 +169,7 @@ class PhotosLibraryApiModel extends Model {
     // Load albums from owned and shared albums
     final list = await Future.wait([_loadSharedAlbums(), _loadAlbums()]);
 
-    _albums.addAll(list.expand((a) => a ));
+    _albums.addAll(list.expand((a) => a));
 
     notifyListeners();
     hasAlbums = true;
