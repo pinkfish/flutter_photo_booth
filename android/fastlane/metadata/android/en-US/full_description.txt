@@ -1,0 +1,1 @@
+Photo booth that links with google photos for really easy photo booth handling.

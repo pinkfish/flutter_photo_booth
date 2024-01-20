@@ -10,6 +10,8 @@
 #     https://docs.fastlane.tools/plugins/available-plugins
 #
 
+import '../../fastlane/fastlane.common'
+
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
 
@@ -24,15 +26,34 @@ platform :android do
   desc "Submit a new Beta Build to Crashlytics Beta"
   lane :beta do
     gradle(task: "clean assembleRelease")
-    crashlytics
+    upload_to_play_store(track: 'beta')
   
     # sh "your_script.sh"
     # You can also use other beta testing services here
+  end
+
+  desc "Submit a new Beta Build to Crashlytics Beta"
+  lane :internal do
+      release_notes(OS: 'android')
+
+      gradle(task: "clean assembleRelease")
+
+      upload_to_play_store(track: 'internal')
+      tag_branch(OS: "android")
   end
 
   desc "Deploy a new version to the Google Play"
   lane :deploy do
     gradle(task: "clean assembleRelease")
     upload_to_play_store
+  end
+
+  lane :alpha do
+      gradle(task: "clean assembleRelease")
+      # build_android_app is a built-in fastlane action.
+      release = firebase_app_distribution(
+          app: env["FIREBASE_APP_ID"],
+          release_notes: "Lots of amazing new features to test out!",
+      )
   end
 end

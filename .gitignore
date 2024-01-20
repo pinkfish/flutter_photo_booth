@@ -32,6 +32,7 @@ migrate_working_dir/
 .pub/
 build/**
 key.properties
+firebase_app_id_file.json
 
 # Symbolication related
 app.*.symbols

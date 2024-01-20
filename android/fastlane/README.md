@@ -13,6 +13,17 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 # Available Actions
 
+### release_notes
+
+```sh
+[bundle exec] fastlane release_notes
+```
+
+Generate release notes
+
+----
+
+
 ## Android
 
 ### android test
@@ -31,6 +42,14 @@ Runs all the tests
 
 Submit a new Beta Build to Crashlytics Beta
 
+### android internal
+
+```sh
+[bundle exec] fastlane android internal
+```
+
+Submit a new Beta Build to Crashlytics Beta
+
 ### android deploy
 
 ```sh
@@ -38,6 +57,14 @@ Submit a new Beta Build to Crashlytics Beta
 ```
 
 Deploy a new version to the Google Play
+
+### android alpha
+
+```sh
+[bundle exec] fastlane android alpha
+```
+
+
 
 ----
 
