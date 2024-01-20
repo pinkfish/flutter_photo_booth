@@ -84,11 +84,8 @@ class _PhotoBoothPageState extends State<PhotoBoothPage> {
                               width: layout.maxHeight / 4,
                               height: layout.maxHeight / 4,
                               child: Center(
-                                child: AnimatedStuffIcon(
-                                  icons: const [
-                                    Icons.camera_alt,
-                                    Icons.picture_in_picture
-                                  ],
+                                child: Icon(
+                                  Icons.camera_alt,
                                   size: layout.maxHeight / 6,
                                 ),
                               ),
