@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/rendering.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import '../model/photos_library_api_model.dart';
@@ -29,8 +28,8 @@ class LastPhotos extends StatelessWidget {
                     ),
                   );
                 }
-                return const SizedBox(
-                  height: 1,
+                return SizedBox(
+                  height: size,
                 );
               }),
     );

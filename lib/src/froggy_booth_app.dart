@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:froggybooth/src/pages/create_booth_page.dart';
-import 'package:froggybooth/src/pages/home_page.dart';
+import 'pages/create_booth_page.dart';
+import 'pages/home_page.dart';
 
 import 'settings/settings_controller.dart';
 import 'settings/settings_view.dart';

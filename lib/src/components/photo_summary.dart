@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:froggybooth/src/components/album_qr_code.dart';
-import 'package:froggybooth/src/pages/photo_booth_page.dart';
+import '../components/album_qr_code.dart';
+import '../pages/photo_booth_page.dart';
 
 class PhotoSummaryPage extends StatelessWidget {
   const PhotoSummaryPage(
@@ -32,6 +32,7 @@ class PhotoSummaryPage extends StatelessWidget {
           Expanded(
             child: AlbumQrCode(albumId: albumId),
           ),
+          const SizedBox(height:10),
           FilledButton(
             style: FilledButton.styleFrom(
               backgroundColor: Colors.blue,
@@ -43,6 +44,7 @@ class PhotoSummaryPage extends StatelessWidget {
               style: TextStyle(fontSize: 30.0),
             ),
           ),
+          const SizedBox(height:10),
         ],
       ),
     );

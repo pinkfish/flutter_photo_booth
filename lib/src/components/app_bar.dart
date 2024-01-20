@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:froggybooth/src/settings/settings_controller.dart';
+import '../settings/settings_controller.dart';
 import 'package:scoped_model/scoped_model.dart';
 import '../model/photos_library_api_model.dart';
 import '../pages/login_page.dart';

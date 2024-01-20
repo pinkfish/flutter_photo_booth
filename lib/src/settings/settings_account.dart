@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:froggybooth/src/settings/settings_controller.dart';
+import 'settings_controller.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import '../model/photos_library_api_model.dart';

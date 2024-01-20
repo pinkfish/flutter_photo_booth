@@ -100,10 +100,12 @@ class _PhotoBoothPageState extends State<PhotoBoothPage> {
                               albumId: widget.albumId,
                             ),
                           ),
+                          const SizedBox(height: 10),
                           LastPhotos(
                             albumId: widget.albumId,
                             size: layout.maxHeight / 4,
                           ),
+                          const SizedBox(height: 10),
                         ],
                       );
                     } else {
