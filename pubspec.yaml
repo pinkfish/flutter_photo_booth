@@ -44,6 +44,7 @@ dependencies:
   firebase_crashlytics: ^3.4.9
   package_info_plus: ^5.0.1
   infinite_carousel: ^1.0.3
+  wakelock_plus: ^1.1.4
 
 dev_dependencies:
   flutter_test:

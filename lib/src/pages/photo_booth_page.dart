@@ -16,6 +16,7 @@
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 import '../components/app_bar.dart';
 import '../model/camera_model.dart';
 import 'take_photos_page.dart';
@@ -38,10 +39,16 @@ class PhotoBoothPage extends StatefulWidget {
   State<StatefulWidget> createState() => _PhotoBoothPageState();
 }
 
-class _PhotoBoothPageState extends State<PhotoBoothPage>
-    {
+class _PhotoBoothPageState extends State<PhotoBoothPage> {
   final CameraModel cameraModel = CameraModel();
 
+  @override
+  void initState() {
+    super.initState();
+
+    // Disable wakelock once we have the photo booth page up.
+    WakelockPlus.enable();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -7,6 +7,7 @@ import 'package:scoped_model/scoped_model.dart';
 import '../model/camera_model.dart';
 
 import '../model/photos_library_api_model.dart';
+import '../pages/photo_booth_page.dart';
 import 'countdown_display.dart';
 
 class PhotoCountdown extends StatefulWidget {
@@ -66,6 +67,12 @@ class _PhotoCountdownState extends State<PhotoCountdown>
                               future: _cameraController,
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
+                                  if (snapshot.data == null) {
+                                    Timer(const Duration(seconds: 5), () {
+                                      _navigateBack(context);
+                                    });
+                                    return const Text("Error getting camera permission");
+                                  }
                                   snapshot.data!.getMinZoomLevel().then(
                                       (value) =>
                                           snapshot.data!.setZoomLevel(value));
@@ -140,7 +147,7 @@ class _PhotoCountdownState extends State<PhotoCountdown>
   Future<XFile?> takePicture(PhotosLibraryApiModel apiModel) async {
     try {
       var controller = await _cameraController;
-      var img = await controller.takePicture();
+      var img = await controller!.takePicture();
       // Wait 5 seconds, then restart.
       Timer(const Duration(seconds: 2), () => widget.streamController.add(img));
       apiModel.uploadMediaItem(File(img.path)).then((id) async {
@@ -165,7 +172,21 @@ class _PhotoCountdownState extends State<PhotoCountdown>
 
       if (!context.mounted) return null;
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      Timer(const Duration(seconds: 5), () {
+        _navigateBack(context);
+      });
       return null;
     }
+  }
+
+  void _navigateBack(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => PhotoBoothPage(
+          albumId: widget.albumId,
+        ),
+      ),
+    );
   }
 }
