@@ -67,7 +67,7 @@ class _PhotoCountdownState extends State<PhotoCountdown>
                           FutureBuilder(
                               future: _cameraController,
                               builder: (context, snapshot) {
-                                if (snapshot.hasData)
+                                if (snapshot.hasData) {
                                   if (_disposedCamera) {
                                     return Text("Disposed camera");
                                   }
