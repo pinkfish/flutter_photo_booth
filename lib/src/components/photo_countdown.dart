@@ -147,7 +147,7 @@ class _PhotoCountdownState extends State<PhotoCountdown>
   Future<XFile?> takePicture(PhotosLibraryApiModel apiModel) async {
     try {
       var controller = await _cameraController;
-      var img = await controller!.takePicture();
+      var img = await controller.takePicture();
       // Wait 5 seconds, then restart.
       Timer(const Duration(seconds: 2), () => widget.streamController.add(img));
       apiModel.uploadMediaItem(File(img.path)).then((id) async {
