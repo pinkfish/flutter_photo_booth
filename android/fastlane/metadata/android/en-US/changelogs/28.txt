@@ -1,0 +1,1 @@
+Fix issues when the album is empty
