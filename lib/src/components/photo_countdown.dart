@@ -45,7 +45,6 @@ class _PhotoCountdownState extends State<PhotoCountdown>
 
     _controller.forward();
     _cameraController = widget.cameraModel.newController();
-    print("new camera");
   }
 
   @override
@@ -158,7 +157,6 @@ class _PhotoCountdownState extends State<PhotoCountdown>
       return img;
     } catch (e) {
       // If an error occurs, log the error to the console.
-      print(e);
       Timer(
           const Duration(seconds: 2), () => widget.streamController.add(null));
       const snackBar = SnackBar(

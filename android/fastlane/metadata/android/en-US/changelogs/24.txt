@@ -1,0 +1,1 @@
+Fix camera dispose and aspect ratio
