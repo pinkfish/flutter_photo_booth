@@ -12,6 +12,7 @@ class CameraModel {
     if (_camera == null) {
       var cameras = await availableCameras();
       for (var c in cameras) {
+        print('camera $c');
         if (c.lensDirection == CameraLensDirection.front) {
           _camera = c;
         }
@@ -20,7 +21,8 @@ class CameraModel {
     if (_camera != null) {
       var cameraController = CameraController(
         _camera!,
-        ResolutionPreset.high,
+        ResolutionPreset.max,
+        imageFormatGroup: ImageFormatGroup.jpeg,
       );
       await cameraController!.initialize();
       return cameraController;

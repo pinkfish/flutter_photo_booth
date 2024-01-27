@@ -119,11 +119,6 @@ class PhotosLibraryApiClient {
 
     printError(response);
 
-    if (kDebugMode) {
-      print(response.headers);
-      print(response.body);
-    }
-
     return ListAlbumsResponse.fromJson(jsonDecode(response.body));
   }
 
@@ -134,10 +129,6 @@ class PhotosLibraryApiClient {
         headers: await getAuthHeaders());
 
     printError(response);
-
-    if (kDebugMode) {
-      print(response.body);
-    }
 
     return ListSharedAlbumsResponse.fromJson(jsonDecode(response.body));
   }

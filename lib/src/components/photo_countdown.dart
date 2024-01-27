@@ -45,6 +45,7 @@ class _PhotoCountdownState extends State<PhotoCountdown>
 
     _controller.forward();
     _cameraController = widget.cameraModel.newController();
+    print("new camera");
   }
 
   @override
@@ -66,10 +67,17 @@ class _PhotoCountdownState extends State<PhotoCountdown>
                               future: _cameraController,
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
+                                  snapshot.data!.getMinZoomLevel().then(
+                                      (value) =>
+                                          snapshot.data!.setZoomLevel(value));
                                   return SizedBox(
                                     height: layout.maxHeight,
                                     child: Center(
-                                      child: CameraPreview(snapshot.data!),
+                                      child: AspectRatio(
+                                        aspectRatio: 1 /
+                                            snapshot.data!.value.aspectRatio,
+                                        child: CameraPreview(snapshot.data!),
+                                      ),
                                     ),
                                   );
                                 }
@@ -145,6 +153,7 @@ class _PhotoCountdownState extends State<PhotoCountdown>
               const SnackBar(content: Text('Failed to upload photo')));
         }
       });
+      await controller.dispose();
 
       return img;
     } catch (e) {

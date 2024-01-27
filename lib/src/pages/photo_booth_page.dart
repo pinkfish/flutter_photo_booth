@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
-import 'dart:async';
-
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import '../components/animated_stuff_icon.dart';
 import '../components/app_bar.dart';
 import '../model/camera_model.dart';
 import 'take_photos_page.dart';
@@ -40,8 +38,10 @@ class PhotoBoothPage extends StatefulWidget {
   State<StatefulWidget> createState() => _PhotoBoothPageState();
 }
 
-class _PhotoBoothPageState extends State<PhotoBoothPage> {
+class _PhotoBoothPageState extends State<PhotoBoothPage>
+    {
   final CameraModel cameraModel = CameraModel();
+
 
   @override
   Widget build(BuildContext context) {

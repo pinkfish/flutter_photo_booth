@@ -1,0 +1,3 @@
+Fix the photo initialization process
+Change the photo button to not animate
+too much animation
