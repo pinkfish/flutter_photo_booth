@@ -163,8 +163,8 @@ class _PhotoCountdownState extends State<PhotoCountdown>
               const SnackBar(content: Text('Failed to upload photo')));
         }
       });
-      _disposedCamera = true;
-      await controller.dispose();
+      //_disposedCamera = true;
+      //await controller.dispose();
 
       return img;
     } catch (e) {

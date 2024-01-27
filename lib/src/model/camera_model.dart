@@ -7,6 +7,7 @@ import 'package:camera/camera.dart';
 ///
 class CameraModel {
   CameraDescription? _camera;
+  CameraController? _controller;
 
   Future<CameraController> newController() async {
     if (_camera == null) {
@@ -19,13 +20,16 @@ class CameraModel {
       }
     }
     if (_camera != null) {
-      var cameraController = CameraController(
+      if (_controller != null) {
+        return _controller!;
+      }
+       _controller = CameraController(
         _camera!,
         ResolutionPreset.max,
         imageFormatGroup: ImageFormatGroup.jpeg,
       );
-      await cameraController!.initialize();
-      return cameraController;
+      await _controller!.initialize();
+      return _controller!;
     }
     throw CameraException("bad load", "bad time loading the controller");
   }
