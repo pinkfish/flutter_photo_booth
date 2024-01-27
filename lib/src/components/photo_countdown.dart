@@ -30,6 +30,7 @@ class _PhotoCountdownState extends State<PhotoCountdown>
     with TickerProviderStateMixin {
   late AnimationController _controller;
   late Future<CameraController> _cameraController;
+  bool _disposedCamera = false;
 
   @override
   void dispose() {
@@ -66,7 +67,10 @@ class _PhotoCountdownState extends State<PhotoCountdown>
                           FutureBuilder(
                               future: _cameraController,
                               builder: (context, snapshot) {
-                                if (snapshot.hasData) {
+                                if (snapshot.hasData)
+                                  if (_disposedCamera) {
+                                    return Text("Disposed camera");
+                                  }
                                   if (snapshot.data == null) {
                                     Timer(const Duration(seconds: 5), () {
                                       _navigateBack(context);
@@ -159,6 +163,7 @@ class _PhotoCountdownState extends State<PhotoCountdown>
               const SnackBar(content: Text('Failed to upload photo')));
         }
       });
+      _disposedCamera = true;
       await controller.dispose();
 
       return img;
