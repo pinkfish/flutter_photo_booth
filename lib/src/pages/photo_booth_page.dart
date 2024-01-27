@@ -66,6 +66,11 @@ class _PhotoBoothPageState extends State<PhotoBoothPage> {
                   future: apiModel.getAlbum(widget.albumId),
                   builder:
                       (BuildContext context, AsyncSnapshot<Album> snapshot) {
+                    if (snapshot.hasError) {
+                      print(snapshot.error);
+                      print(snapshot.stackTrace);
+                      return Text("Failed to load album");
+                    }
                     if (snapshot.hasData) {
                       return Column(
                         children: <Widget>[
@@ -79,6 +84,16 @@ class _PhotoBoothPageState extends State<PhotoBoothPage> {
                                   .textTheme
                                   .bodyLarge
                                   ?.copyWith(fontSize: 20),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Text(
+                              snapshot.data?.title ?? 'Unknown title',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(fontSize: 30),
                             ),
                           ),
                           FilledButton(

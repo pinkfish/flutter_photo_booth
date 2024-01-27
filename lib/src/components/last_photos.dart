@@ -40,7 +40,7 @@ class _LastPhotosState extends State<LastPhotos> {
 
   @override
   Widget build(BuildContext context) {
-    var width = widget.size /16 * 9 + 15;
+    var width = widget.size / 16 * 9 + 15;
     return ScopedModelDescendant<PhotosLibraryApiModel>(
       builder: (BuildContext context, Widget? child,
               PhotosLibraryApiModel apiModel) =>
@@ -53,6 +53,12 @@ class _LastPhotosState extends State<LastPhotos> {
                 }
                 if (snapshot.hasData) {
                   var d = snapshot.data!;
+                  if (d.length == 0) {
+                    return SizedBox(
+                      height: widget.size,
+                      child: Text("No photos in album"),
+                    );
+                  }
                   return SizedBox(
                     height: widget.size,
                     child: InfiniteCarousel.builder(
@@ -80,8 +86,6 @@ class _LastPhotosState extends State<LastPhotos> {
 
   Widget _createCard(MediaItem it, double width) {
     return CachedNetworkImage(
-        imageUrl: '${it.baseUrl}=w364',
-        width: width,
-        height: widget.size);
+        imageUrl: '${it.baseUrl}=w364', width: width, height: widget.size);
   }
 }

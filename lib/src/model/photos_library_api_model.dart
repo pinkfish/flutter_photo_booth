@@ -88,7 +88,7 @@ class PhotosLibraryApiModel extends Model {
       }
     }
     var album = await client.getAlbum(GetAlbumRequest.defaultOptions(id));
-    albums.add(album);
+    _albums.add(album);
     return album;
   }
 
