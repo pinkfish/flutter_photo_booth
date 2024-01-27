@@ -1,0 +1,4 @@
+Fix syntax issue
+Fix disposed camera issue
+fastlane report
+Version data.
