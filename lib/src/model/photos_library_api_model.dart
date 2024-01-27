@@ -37,10 +37,8 @@ import '../photos_library_api/share_album_response.dart';
 
 class PhotosLibraryApiModel extends Model {
   PhotosLibraryApiModel() {
-    print("user stuff xxxxx");
     _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
       _currentUser = account;
-      print("user change");
       client =
           // Initialize the client with the new user credentials
           PhotosLibraryApiClient(_currentUser);

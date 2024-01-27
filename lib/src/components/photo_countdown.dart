@@ -28,6 +28,7 @@ class PhotoCountdown extends StatefulWidget {
 class _PhotoCountdownState extends State<PhotoCountdown>
     with TickerProviderStateMixin {
   late AnimationController _controller;
+  late Future<CameraController> _cameraController;
 
   @override
   void dispose() {
@@ -43,6 +44,7 @@ class _PhotoCountdownState extends State<PhotoCountdown>
         AnimationController(vsync: this, duration: const Duration(seconds: 5));
 
     _controller.forward();
+    _cameraController = widget.cameraModel.newController();
   }
 
   @override
@@ -61,7 +63,7 @@ class _PhotoCountdownState extends State<PhotoCountdown>
                       Stack(
                         children: [
                           FutureBuilder(
-                              future: widget.cameraModel.cameraInitialized,
+                              future: _cameraController,
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
                                   return SizedBox(
@@ -70,6 +72,9 @@ class _PhotoCountdownState extends State<PhotoCountdown>
                                       child: CameraPreview(snapshot.data!),
                                     ),
                                   );
+                                }
+                                if (snapshot.hasError) {
+                                  return const Text("Error loading camera");
                                 }
                                 return const SizedBox(height: 10);
                               }),
@@ -127,7 +132,7 @@ class _PhotoCountdownState extends State<PhotoCountdown>
 
   Future<XFile?> takePicture(PhotosLibraryApiModel apiModel) async {
     try {
-      var controller = await widget.cameraModel.cameraInitialized;
+      var controller = await _cameraController;
       var img = await controller.takePicture();
       // Wait 5 seconds, then restart.
       Timer(const Duration(seconds: 2), () => widget.streamController.add(img));

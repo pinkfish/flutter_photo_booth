@@ -27,7 +27,7 @@ class _LastPhotosState extends State<LastPhotos> {
     super.initState();
 
     controller = InfiniteScrollController();
-    Timer.periodic(const Duration(seconds: 3),
+    scrollingTimer = Timer.periodic(const Duration(seconds: 3),
         (t) => controller.nextItem(duration: const Duration(seconds: 1)));
   }
 
